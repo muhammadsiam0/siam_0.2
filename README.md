@@ -13,13 +13,13 @@ A secure and comprehensive file storage website built with Next.js, supporting i
 
 ## Tech Stack
 
-- **Frontend**: Next.js, React, Tailwind CSS
-- **Backend**: Next.js API Routes
-- **Database**: MongoDB
-- **File Storage**: Cloudinary
-- **Authentication**: JWT, bcrypt
-- **2FA**: speakeasy
-- **Email**: Resend
+- **Frontend/Backend**: Next.js 16.1.1 with App Router
+- **Database**: MongoDB with Mongoose
+- **File Storage**: Cloudinary (25GB free storage)
+- **Authentication**: JWT + bcrypt
+- **2FA**: speakeasy (TOTP)
+- **Email**: Resend (3,000 emails/month free)
+- **Styling**: Tailwind CSS v4 with PostCSS
 
 ## Setup
 
@@ -28,25 +28,49 @@ A secure and comprehensive file storage website built with Next.js, supporting i
 3. Set up environment variables in `.env.local`:
 
 ```env
-MONGODB_URI=your-mongodb-atlas-connection-string
+MONGODB_URI=mongodb+srv://your-connection-string
 JWT_SECRET=your-jwt-secret
-CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
-CLOUDINARY_API_KEY=your-cloudinary-api-key
-CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 RESEND_API_KEY=your-resend-api-key
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+PORT=10000
 ```
 
-4. Run the development server: `npm run dev`
+4. Run development server: `npm run dev`
 
-## Deployment
+## Production Deployment
 
-This app is optimized for free hosting on Vercel.
+### Build Commands
+```bash
+npm run build    # Build for production
+npm run start    # Start production server
+npm run type-check  # TypeScript validation
+```
 
-1. Push to GitHub
-2. Connect to Vercel
+### Deploy to Render
+1. Push code to GitHub
+2. Connect Render to your repository
+3. Set environment variables in Render dashboard
+4. Set build command: `npm run build`
+5. Set start command: `npm run start`
+
+### Deploy to Vercel
+1. Push code to GitHub
+2. Connect Vercel to your repository
 3. Set environment variables in Vercel dashboard
 4. Deploy
+
+### Environment Variables Required
+- `MONGODB_URI`: MongoDB Atlas connection string
+- `JWT_SECRET`: Secret key for JWT tokens
+- `CLOUDINARY_CLOUD_NAME`: Cloudinary cloud name
+- `CLOUDINARY_API_KEY`: Cloudinary API key
+- `CLOUDINARY_API_SECRET`: Cloudinary API secret
+- `RESEND_API_KEY`: Resend API key for emails
+- `NEXT_PUBLIC_BASE_URL`: Your production domain
+- `PORT`: Port for the server (optional, defaults to 3000)
 
 ## Free Hosting Setup
 
