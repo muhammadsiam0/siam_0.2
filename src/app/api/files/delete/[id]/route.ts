@@ -12,7 +12,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     await dbConnect();
     const authHeader = request.headers.get('authorization');
@@ -26,7 +27,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const file = await File.findOne({ _id: params.id, userId: decoded.userId });
+    const file = await File.findOne({ _id: id, userId: decoded.userId });
     if (!file) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 });
     }
@@ -35,7 +36,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     await cloudinary.uploader.destroy(file.publicId);
 
     // Delete from database
-    await File.deleteOne({ _id: params.id });
+    await File.deleteOne({ _id: id });
 
     return NextResponse.json({ message: 'File deleted successfully' });
   } catch (error) {
